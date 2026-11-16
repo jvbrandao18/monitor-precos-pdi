@@ -1,0 +1,39 @@
+name: Monitorar preços
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 12 * * *'
+permissions:
+  contents: read
+concurrency:
+  group: monitor-precos
+  cancel-in-progress: false
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -e .
+      - name: Restaurar histórico da última execução
+        uses: actions/cache/restore@v4
+        with:
+          path: data/
+          key: precos-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: precos-
+      - run: python -m monitor_precos run
+      - name: Preservar histórico
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: data/
+          key: precos-${{ github.run_id }}-${{ github.run_attempt }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: monitor-precos-${{ github.run_number }}
+          path: |
+            output/
+            data/

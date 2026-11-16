@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "monitor-precos-pdi"
+version = "1.0.0"
+description = "Automação em Python para monitorar preços, registrar histórico e gerar alertas."
+requires-python = ">=3.11"
+dependencies = ["requests>=2.32,<3", "beautifulsoup4>=4.12,<5"]
+
+[project.optional-dependencies]
+browser = ["playwright>=1.48,<2"]
+
+[project.scripts]
+monitor-precos = "monitor_precos.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["monitor_precos*"]

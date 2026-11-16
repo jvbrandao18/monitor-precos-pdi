@@ -1,0 +1,11 @@
+[
+  {
+    "id": "a-light-in-the-attic",
+    "name": "A Light in the Attic (loja de treino)",
+    "url": "https://books.toscrape.com/catalogue/a-light-in-the-attic_1000/index.html",
+    "selector": ".product_main .price_color",
+    "currency": "GBP",
+    "decimal_separator": ".",
+    "target_price": "52.00"
+  }
+]
